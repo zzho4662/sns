@@ -10,6 +10,6 @@ app.use(express.json());
 
 app.use("/api/v1/users", users);
 
-const PORT = process.env.PORT || 6100;
+const PORT = process.env.PORT || 5777;
 
-app.listen(PORT, console.log("6100"));
+app.listen(PORT, console.log("5777"));
