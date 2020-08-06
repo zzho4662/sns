@@ -20,7 +20,7 @@ exports.createUser = async (req, res, next) => {
   // npm bcryptjs
   const hashedPasswd = await bcrypt.hash(passwd, 8);
 
-  let query = "insert into sns_user (email, passwd) values ( ? , ? )";
+  let query = "insert into photo_user (email, passwd) values ( ? , ? )";
   let data = [email, hashedPasswd];
   let user_id;
 
@@ -39,7 +39,7 @@ exports.createUser = async (req, res, next) => {
   // 토큰 처리  npm jsonwebtoken
   // 토큰 생성 sign
   const token = jwt.sign({ user_id: user_id }, process.env.ACCESS_TOKEN_SECRET);
-  query = "insert into sns_token (token, user_id) values (? , ? )";
+  query = "insert into photo_token (token, user_id) values (? , ? )";
   data = [token, user_id];
 
   try {
@@ -63,7 +63,7 @@ exports.loginUser = async (req, res, next) => {
   let email = req.body.email;
   let passwd = req.body.passwd;
 
-  let query = "select * from sns_user where email = ? ";
+  let query = "select * from photo_user where email = ? ";
   let data = [email];
 
   let user_id;
@@ -81,7 +81,7 @@ exports.loginUser = async (req, res, next) => {
     return;
   }
   const token = jwt.sign({ user_id: user_id }, process.env.ACCESS_TOKEN_SECRET);
-  query = "insert into sns_token (token, user_id) values (?, ?)";
+  query = "insert into photo_token (token, user_id) values (?, ?)";
   data = [token, user_id];
   try {
     [result] = await connection.query(query, data);
@@ -100,7 +100,7 @@ exports.logout = async (req, res, next) => {
   let user_id = req.user.id;
   let token = req.user.token;
 
-  let query = "delete from sns_token where user_id = ? and token = ? ";
+  let query = "delete from photo_token where user_id = ? and token = ? ";
   let data = [user_id, token];
   try {
     [result] = await connection.query(query, data);

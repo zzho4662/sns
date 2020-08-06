@@ -24,8 +24,8 @@ const auth = async (req, res, next) => {
 
   let query =
     "select u.id, u.email, u.created_at, t.token \
-  from sns_user as u \
-  join sns_token as t \
+  from photo_user as u \
+  join photo_token as t \
   on u.id = t.user_id \
   where t.user_id = ? and t.token = ?;";
 
